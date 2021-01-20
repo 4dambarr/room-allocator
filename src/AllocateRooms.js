@@ -44,7 +44,7 @@ function AllocateRooms(choices) {
             if (!checkTaken(choices[person].rooms[i]) && !checkSorted(choices[person].name)){
                 isConflict = false
                 for (let other=0; other< choices.length; other++){
-                    if (choices[person].rooms[i] == choices[other].rooms[i] && choices[person] !== choices[other] && !checkSorted(choices[other].name) && !isConflict){
+                    if (choices[person].rooms[i] === choices[other].rooms[i] && choices[person] !== choices[other] && !checkSorted(choices[other].name) && !isConflict){
                         isConflict = true
                         conflict[choices[person].rooms[i]].push(choices[person].name)
                     }

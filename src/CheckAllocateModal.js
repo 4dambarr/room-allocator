@@ -5,8 +5,12 @@ function CheckAllocteModal(props){
         props.setShow(false)
     }
 
+    function onAllocateRooms(){
+        props.allocateRooms()
+    }
+
     return (
-        <Modal show={true} onHide={close}>
+        <Modal show={props.show} onHide={close}>
             <Modal.Header closeButton>
                 Allocate Rooms
 			</Modal.Header>
@@ -14,8 +18,8 @@ function CheckAllocteModal(props){
                 {props.checkText}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger">Cancel</Button>
-                <Button variant="success">Allocate Rooms</Button>
+                <Button variant="danger" onClick={close}>Cancel</Button>
+                <Button variant="success" onClick={onAllocateRooms}>Allocate Rooms</Button>
             </Modal.Footer>
         </Modal>
     )

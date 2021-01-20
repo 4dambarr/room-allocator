@@ -23,7 +23,7 @@ function SetUpPage(props) {
 		setRooms(newRooms)
 		for (let person of people) {
 			var holder = person.rooms
-			if (holder.length != newRooms.length) {
+			if (holder.length !== newRooms.length) {
 				holder.push(name)
 				person.rooms = holder
 			}
@@ -75,7 +75,20 @@ function SetUpPage(props) {
 	function onAllocateRooms() {
 		if (rooms.length < 2){
 			alert('Not enough rooms')
+		} else if (people.length < 2) {
+			alert('Not enough people')
+		} else if (rooms.length > people.length) {
+			setCheckText("More rooms than people, are you sure you want to allocate rooms?")
+			setCheckAllocate(true)
+		} else if (people.length > rooms.length) {
+			setCheckText("More people than rooms, are you sure you want to allocate rooms?")
+			setCheckAllocate(true)
+		} else {
+			props.allocateRooms(people)
 		}
+	}
+
+	function allocateRooms(){
 		props.allocateRooms(people)
 	}
 
@@ -131,7 +144,7 @@ function SetUpPage(props) {
 				show={checkAllocate}
 				checkText={checkText}
 				setShow={setCheckAllocate}
-				onAllocateRooms={onAllocateRooms}
+				allocateRooms={allocateRooms}
 			/>
       <Container>
 			<Row>

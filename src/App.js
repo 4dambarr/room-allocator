@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Container, Row, Table } from 'react-bootstrap';
 import AllocateRooms from './AllocateRooms';
 import './App.css';
 import SetUpPage from './SetupPage';
@@ -20,12 +21,40 @@ function App() {
       case 'allocated':
         console.log(allocations)
         return (
-          <div>
-            {allocations.map(person => {
-              return <p>{person.name} {'->'} {person.room}</p>
-            })}
-          </div>
+          <Container>
+            <Row>
+              <div className="Title">
+                <h1>Results</h1>
+              </div>
+            </Row>
+            <Row>
+              <div className='Results-Page'>
+                <div className='Results-Holder'>
+                  <Table className="Table" striped bordered hover>
+                    <thead>
+                      <tr>
+                        <td>Person</td>
+                        <td>Room</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {allocations.map(person => {
+                        return (
+                          <tr>
+                            <td>{person.name}</td>
+                            <td>{person.room}</td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
+              </div>
+            </Row>
+          </Container>
         )
+      default:
+        return <p>Somethings gone wrong</p>
     }
   }
 

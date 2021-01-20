@@ -8,6 +8,7 @@
   left: 0px;
   background-color: rgb(221, 2, 2);
   color: white;
+  margin-bottom: 5px;
 }
 
 .Title {
@@ -78,4 +79,16 @@
   margin-top: 2px;
   width: 95%;
   float: right;
+}
+
+.Results-Page {
+  margin-top: 20px;
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
+
+.Results-Holder {
+  width: 70vw;
 }
