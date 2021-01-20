@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import AllocateRooms from './AllocateRooms';
 import './App.css';
+import SetUpPage from './SetupPage';
 
 function App() {
+  const [state, setState] = useState('set-up')
+  const [allocations, setAllocations] = useState(null)
+
+  function onAllocateRooms(choices) {
+    var result = AllocateRooms(choices)
+    setAllocations(result)
+    setState('allocated')
+  }
+
+  function displayPage() {
+    switch (state) {
+      case 'set-up':
+        return <SetUpPage allocateRooms={onAllocateRooms} />
+      case 'allocated':
+        console.log(allocations)
+        return (
+          <div>
+            {allocations.map(person => {
+              return <p>{person.name} {'->'} {person.room}</p>
+            })}
+          </div>
+        )
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {displayPage()}
     </div>
   );
 }
