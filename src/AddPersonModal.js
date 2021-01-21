@@ -71,7 +71,11 @@ function AddPersonModal(props) {
     }
 
     useEffect(() => {
-        setRooms(props.rooms)
+        var roomsCopy = []
+        for (let room of props.rooms){
+            roomsCopy.push(room)
+        }
+        setRooms(roomsCopy)
         setName("")
     }, [props.show])
 
