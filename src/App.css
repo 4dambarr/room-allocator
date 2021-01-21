@@ -8,7 +8,6 @@
   left: 0px;
   background-color: rgb(221, 2, 2);
   color: white;
-  margin-bottom: 5px;
 }
 
 .Title {
@@ -36,6 +35,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .Add-Button {
@@ -91,4 +91,11 @@
 
 .Results-Holder {
   width: 70vw;
+}
+
+.Buttons-Holder{
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  height: 50px;
 }
