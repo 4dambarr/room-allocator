@@ -58,6 +58,8 @@ export const personReducer = function (state = initialPeople, action) {
                     tmp.push({id: person.id, name: person.name, preferences: [...person.preferences, {id: roomID, name: action.name}], allocated_room: person.allocated_room})
                 }
                 return tmp
+            } else {
+                return state
             }
         default:
             return state;
