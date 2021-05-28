@@ -1,11 +1,15 @@
 function AllocateRooms(choices) {
 
     function checkTaken(val) {
+        console.log("----")
+        console.log(val, taken)
         for (let room of taken) {
             if (val === room.room){
+                console.log("Sorted")
                 return true
             }
         }
+        console.log("not sorted")
         return false
     }
 
@@ -40,8 +44,9 @@ function AllocateRooms(choices) {
 
     for (let i = 0; i < length; i++){
         conflict = resetConflict(rooms)
+
         for (let person=0; person < choices.length; person++){
-            if (!checkTaken(choices[person].preferences[i]) && !checkSorted(choices[person].name)){
+            if (!checkTaken(choices[person].preferences[i].name) && !checkSorted(choices[person].name)){
                 isConflict = false
                 for (let other=0; other< choices.length; other++){
                     if (choices[person].preferences[i] === choices[other].preferences[i] && choices[person] !== choices[other] && !checkSorted(choices[other].name) && !isConflict){
@@ -51,10 +56,11 @@ function AllocateRooms(choices) {
                 }
             }
 
-            if (!isConflict && !checkTaken(choices[person].preferences[i])){
+            if (!isConflict && !checkTaken(choices[person].preferences[i].name)){
                 taken.push({room: choices[person].preferences[i].name, name: choices[person].name})
             }
         }
+
         for (var room of Object.keys(conflict)) {
             if (!checkTaken(room) && conflict[room].length > 0){
                 let rand = Math.floor(Math.random() * Math.floor(conflict[room].length))
@@ -64,8 +70,6 @@ function AllocateRooms(choices) {
         }
 
     }
-
-    console.log("result", taken)
 
     return taken
 }

@@ -62,8 +62,7 @@ const App = ({ people, rooms, handleRemoveRoom, handleAddRoom }) => {
   const allocateRooms = () => {
     let res = AllocateRooms(people);
     setAllocatedRooms(res)
-    setForceUpdate(true)
-    setTimeout(() => setForceUpdate(false), 2000)
+    setForceUpdate(!forceUpdate)
   }
 
   return (
