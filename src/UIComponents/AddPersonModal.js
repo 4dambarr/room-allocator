@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react"
 import { Button, Form, Modal } from "react-bootstrap"
+import { connect } from "react-redux";
 
 function useForceUpdate() {
     const [value, setValue] = useState(0); // integer state
     return () => setValue(value => value + 1); // update the state to force render
 }
 
-function AddPersonModal(props) {
+function AddPersonModalComponent({ roomsList, show, setShow, handleAddPerson }) {
     const [name, setName] = useState()
-    const [rooms, setRooms] = useState(props.rooms)
+    const [rooms, setRooms] = useState(roomsList)
     const forceUpdate = useForceUpdate();
 
     function moveRank(room, newRank, oldRank) {
@@ -34,11 +35,12 @@ function AddPersonModal(props) {
     }
 
     function close() {
-        props.setShow(false)
+        setShow(false)
     }
 
     function onSubmit() {
-        props.addPerson(name, rooms)
+        console.log(name, rooms)
+        handleAddPerson(name, rooms)
         close()
     }
 
@@ -54,16 +56,28 @@ function AddPersonModal(props) {
 
     function drag(e) {
         var value = document.getElementById(e.target.id).getAttribute("value")
-        e.dataTransfer.setData("Room", value);
+        var selected;
+        for (let room of rooms) {
+            if (room.id.toString() === value) {
+                selected = room
+            }
+        }
+        e.dataTransfer.setData("RoomID", selected.id);
         e.dataTransfer.setData("Rank", e.target.id);
     }
 
     function drop(e) {
         e.preventDefault()
-        var room = e.dataTransfer.getData("Room");
+        var roomID = e.dataTransfer.getData("RoomID");        
+        var dropped;
+        for (let room of rooms) {
+            if (room.id.toString() === roomID) {
+                dropped = room
+            }
+        }
         var oldRank = e.dataTransfer.getData("Rank");
         var newRank = e.target.id
-        moveRank(room, parseInt(newRank), parseInt(oldRank))
+        moveRank(dropped, parseInt(newRank), parseInt(oldRank))
     }
 
     function onNameChange(e) {
@@ -72,15 +86,15 @@ function AddPersonModal(props) {
 
     useEffect(() => {
         var roomsCopy = []
-        for (let room of props.rooms){
+        for (let room of roomsList) {
             roomsCopy.push(room)
         }
         setRooms(roomsCopy)
         setName("")
-    }, [props.show])
+    }, [show])
 
     function displaySubmit() {
-        if(name){
+        if (name) {
             return <Button variant="success" onClick={onSubmit}>Submit</Button>
         } else {
             return <Button variant="success" disabled>Submit</Button>
@@ -88,7 +102,7 @@ function AddPersonModal(props) {
     }
 
     return (
-        <Modal show={props.show} onHide={close}>
+        <Modal show={show} onHide={close}>
             <Modal.Header closeButton>
                 Add Person
 			</Modal.Header>
@@ -105,7 +119,7 @@ function AddPersonModal(props) {
                                 <div className="Rank-Pos">
                                     <p>{index + 1}.</p>
                                 </div>
-                                <div id={index} value={room} className="Room" draggable onDrop={drop} onDragOver={allowDrop} onDragStart={drag}>{room}</div>
+                                <div id={index} value={room.id} className="Room" draggable onDrop={drop} onDragOver={allowDrop} onDragStart={drag}>{room.name}</div>
                             </div>
                         )
                     })}
@@ -119,4 +133,14 @@ function AddPersonModal(props) {
     )
 }
 
-export default AddPersonModal
+const mapStateToProps = state => {
+    return {
+        roomsList: state.rooms
+    };
+};
+const mapDisapatchToProps = dispatch => {
+    return {
+        handleAddPerson: (name, preferences) => dispatch({ type: 'ADD_PERSON', name: name, preferences: preferences })
+    };
+};
+export const AddPersonModal = connect(mapStateToProps, mapDisapatchToProps)(AddPersonModalComponent)
